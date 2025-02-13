@@ -50,6 +50,7 @@ from exabgp.bgp.message.update.nlri.qualifier import RouteDistinguisher
 #                   |  2   | Link NLRI                 |
 #                   |  3   | IPv4 Topology Prefix NLRI |
 #                   |  4   | IPv6 Topology Prefix NLRI |
+#                   |  6   | SRv6 SID NLRI             |
 #                   +------+---------------------------+
 # ==================================================================== BGP LINK_STATE
 #            +-------------+----------------------------------+
@@ -90,9 +91,12 @@ class BGPLS(NLRI):
         self._packed = b''
 
     def pack_nlri(self, negotiated=None):
-        return pack('!BB', self.CODE, len(self._packed)) + self._packed
+        packet = pack('!HH', self.CODE, len(self._packed)) + self._packed
+        print("✅ SRv6 SID NLRI: ", packet.hex())
+        return packet
 
     def __len__(self):
+        self._pack()
         return len(self._packed) + 2
 
     def __hash__(self):
@@ -113,6 +117,7 @@ class BGPLS(NLRI):
 
     @classmethod
     def unpack_nlri(cls, afi, safi, bgp, action, addpath):
+        print("✅ SRv6 SID NLRI: ", bgp.hex())
         code, length = unpack('!HH', bgp[:4])
         if code in cls.registered_bgpls:
             if safi == SAFI.bgp_ls_vpn:
