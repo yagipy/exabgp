@@ -24,6 +24,7 @@ from exabgp.configuration.bgpls.parser import srv6_sid_information
 from exabgp.configuration.bgpls.parser import multi_topologies
 from exabgp.configuration.bgpls.parser import service_chainings
 from exabgp.configuration.bgpls.parser import opaque_metadata
+from exabgp.configuration.bgpls.parser import next_hop
 from exabgp.bgp.message.update.nlri.bgpls.srv6sid import SRv6SID
 
 
@@ -37,6 +38,7 @@ class AnnounceBGPLSSAFI(ParseAnnounce):
         'multi-topologies [ ( <mt id; 16 bits number>.. ).. ]',
         'service-chainings [ ( <service type; 16 bits number> <flags; 8 bits number> <traffic type; 8 bits number> <reserved; 16 bits number> ).. ]',
         'opaque-metadata [ ( <opaque type; 16 bits number> <flags; 8 bits number> <value; string> ).. ]',
+        'next-hop <ip>',
     ]
 
     syntax = 'bgp-ls %s\n' % '  '.join(definition)
@@ -50,6 +52,7 @@ class AnnounceBGPLSSAFI(ParseAnnounce):
         'multi-topologies': multi_topologies,
         'service-chainings': service_chainings,
         'opaque-metadata': opaque_metadata,
+        'next-hop': next_hop,
     }
 
     action = {
@@ -61,12 +64,12 @@ class AnnounceBGPLSSAFI(ParseAnnounce):
         'multi-topologies': 'nlri-set',
         'service-chainings': 'nlri-set',
         'opaque-metadata': 'nlri-set',
+        'next-hop': 'nexthop-and-attribute',
     }
 
     assign = {
         'protocol-id': 'protocol_id',
         'identifier': 'identifier',
-        'origin': 'origin',
         'local-node-descriptor': 'local_node_descriptor',
         'srv6-sid-information': 'srv6_sid_information',
         'multi-topologies': 'multi_topologies',
@@ -104,6 +107,10 @@ def bgpls(tokeniser, afi, safi):
             change.nlri.assign(AnnounceBGPLSSAFI.assign[command], AnnounceBGPLSSAFI.known[command](tokeniser))
         elif 'attribute-add' in action:
             change.attributes.add(AnnounceBGPLSSAFI.known[command](tokeniser))
+        elif action == 'nexthop-and-attribute':
+            nexthop, attribute = AnnounceBGPLSSAFI.known[command](tokeniser)
+            change.nlri.nexthop = nexthop
+            change.attributes.add(attribute)
         else:
             raise ValueError('bgp-ls: unknown command "%s"' % command)
 

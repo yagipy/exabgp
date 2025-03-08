@@ -1,6 +1,9 @@
 from struct import pack, unpack
+
+from exabgp.bgp.message.update.attribute import NextHopSelf
 from exabgp.bgp.message.update.nlri.bgpls import BGPLS
 from exabgp.bgp.message import Action
+from exabgp.protocol.family import AFI
 from exabgp.protocol.ip import IP, IPv6
 from exabgp.bgp.message.update.nlri.bgpls.tlvs.multitopology import MultiTopology
 from exabgp.bgp.message.update.nlri.bgpls.tlvs.servicechaining import ServiceChaining
@@ -23,6 +26,7 @@ class SRv6SID(BGPLS):
             multi_topologies=[],
             service_chainings=[],
             opaque_metadata=[],
+            nexthop=None,
             packed=None
         ):
         BGPLS.__init__(self, action=Action.ANNOUNCE, addpath=None)
@@ -33,8 +37,7 @@ class SRv6SID(BGPLS):
         self.multi_topologies = multi_topologies
         self.service_chainings = service_chainings
         self.opaque_metadata = opaque_metadata
-        # self.nexthop = NoNextHop
-        self.nexthop = IPv6('::1')
+        self.nexthop = nexthop
         self._packed = packed
 
     def _pack(self, packed=None):

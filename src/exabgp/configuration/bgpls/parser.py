@@ -1,8 +1,8 @@
 # encoding: utf-8
 from exabgp.protocol.family import AFI
 
-from exabgp.protocol.ip import IP
-from exabgp.bgp.message.update.attribute import NextHopSelf, Origin
+from exabgp.protocol.ip import IP, IPSelf
+from exabgp.bgp.message.update.attribute import NextHopSelf, Origin, NextHop
 
 from exabgp.bgp.message.update.nlri import VPLS
 from exabgp.bgp.message.update.attribute import Attributes
@@ -114,3 +114,13 @@ def opaque_metadata(tokeniser):
             elif value == ']':
                 break
     return opaque_metadata
+
+def next_hop(tokeniser, afi=None):
+    value = tokeniser()
+    if value.lower() == 'self':
+        return IPSelf(tokeniser.afi), NextHopSelf(tokeniser.afi)
+    else:
+        ip = IP.create(value)
+        if ip.afi == AFI.ipv4 and afi == AFI.ipv6:
+            ip = IP.create('::ffff:%s' % ip)
+        return ip, NextHop(ip.top())
