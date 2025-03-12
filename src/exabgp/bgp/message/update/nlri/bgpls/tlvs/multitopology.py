@@ -50,23 +50,23 @@ import struct
 
 
 class MTID(object):
+    TYPE = 263
     def __init__(self, topologies, packed=None):
+        self.length = len(topologies) * 2
         self.topologies = topologies
         self._packed = packed
+        self.pack()
 
     @classmethod
     def unpack(cls, data):
-        # tids = []
-        # for i in range(0, len(data), 2):
-        #     payload = struct.unpack('!H', data[i:i+2])[0]
-        #     tids.append(payload & 0x0FFF)
-        tids = struct.unpack('!H', data[:2])[0]
-        return cls(tids, data)
+        topologies = []
+        for i in range(0, len(data), 2):
+            payload = struct.unpack('!H', data[i:i+2])[0]
+            topologies.append(payload)
+        return cls(topologies, data)
 
     def json(self):
-        return str(self.topologies)
-        # tids = ', '.join(_ for _ in self.topologies)
-        # return f'[{tids}]'
+        return '%s' % ', '.join(str(topology) for topology in self.topologies)
 
     def __eq__(self, other):
         return self.topologies == other.topologies
@@ -101,4 +101,9 @@ class MTID(object):
     def pack(self):
         if self._packed:
             return self._packed
-        raise RuntimeError('Not implemented')
+
+        self._packed = (
+            struct.pack('!HH', self.TYPE, self.length) +
+            b''.join(struct.pack('!H', topology) for topology in self.topologies)
+        )
+        return self._packed

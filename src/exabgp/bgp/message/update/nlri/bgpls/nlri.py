@@ -50,6 +50,7 @@ from exabgp.bgp.message.update.nlri.qualifier import RouteDistinguisher
 #                   |  2   | Link NLRI                 |
 #                   |  3   | IPv4 Topology Prefix NLRI |
 #                   |  4   | IPv6 Topology Prefix NLRI |
+#                   |  6   | SRv6 SID NLRI             |
 #                   +------+---------------------------+
 # ==================================================================== BGP LINK_STATE
 #            +-------------+----------------------------------+
@@ -61,6 +62,7 @@ from exabgp.bgp.message.update.nlri.qualifier import RouteDistinguisher
 #            |      4      | Direct                           |
 #            |      5      | Static configuration             |
 #            |      6      | OSPFv3                           |
+#            |      7      | BGP                              |
 #            +-------------+----------------------------------+
 # ===================================================================== PROTO_ID
 
@@ -71,6 +73,7 @@ PROTO_CODES = {
     4: 'direct',
     5: 'static',
     6: 'ospfv3',
+    7: 'bgp',
     # not RFC/draft defined
     227: 'freertr',
 }
@@ -90,9 +93,10 @@ class BGPLS(NLRI):
         self._packed = b''
 
     def pack_nlri(self, negotiated=None):
-        return pack('!BB', self.CODE, len(self._packed)) + self._packed
+        return pack('!HH', self.CODE, len(self._packed)) + self._packed
 
     def __len__(self):
+        self._pack() # TODO: 修正
         return len(self._packed) + 2
 
     def __hash__(self):

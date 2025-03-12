@@ -109,27 +109,12 @@ class LINK(BGPLS):
             tlvs = tlvs[4 + tlv_length :]
 
             if tlv_type == 256:
-                local_node = []
-                while value:
-                    # Unpack Local Node Descriptor Sub-TLVs
-                    # We pass proto_id as TLV interpretation
-                    # follows IGP type
-                    node, left = NodeDescriptor.unpack(value, proto_id)
-                    local_node.append(node)
-                    if left == value:
-                        raise RuntimeError('sub-calls should consume data')
-                    value = left
+                local_node = NodeDescriptor.unpack(value, proto_id).nodes
                 continue
 
             if tlv_type == 257:
                 # Remote Node Descriptor
-                remote_node = []
-                while value:
-                    node, left = NodeDescriptor.unpack(value, proto_id)
-                    remote_node.append(node)
-                    if left == value:
-                        raise RuntimeError('sub-calls should consume data')
-                    value = left
+                remote_node = NodeDescriptor.unpack(value, proto_id).nodes
                 continue
 
             if tlv_type == 258:

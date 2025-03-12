@@ -133,7 +133,7 @@ class Update(Message):
                 mp_nlris.setdefault(nlri.family().afi_safi(), {}).setdefault(nlri.action, []).append(nlri)
                 continue
 
-            if nlri.safi in (SAFI.flow_ip, SAFI.flow_vpn):
+            if nlri.safi in (SAFI.flow_ip, SAFI.flow_vpn, SAFI.bgp_ls):
                 mp_nlris.setdefault(nlri.family().afi_safi(), {}).setdefault(nlri.action, []).append(nlri)
                 continue
 

@@ -77,14 +77,7 @@ class NODE(BGPLS):
             )
         values = data[13 : 13 + node_length]
 
-        node_ids = []
-        while values:
-            # Unpack Node Descriptor Sub-TLVs
-            node_id, left = NodeDescriptor.unpack(values, proto_id)
-            node_ids.append(node_id)
-            if left == values:
-                raise RuntimeError('sub-calls should consume data')
-            values = left
+        node_ids = NodeDescriptor.unpack(values, proto_id).nodes
 
         return cls(domain=domain, proto_id=proto_id, node_ids=node_ids, route_d=rd, packed=data)
 

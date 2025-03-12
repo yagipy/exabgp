@@ -1,0 +1,600 @@
+00:20:49 {
+  "exabgp": "5.0.0",
+  "time": 1742743249.466974,
+  "host": "CA-20024907",
+  "pid": 29333,
+  "ppid": 71391,
+  "counter": 1,
+  "type": "update",
+  "neighbor": {
+    "address": {
+      "local": "127.0.0.1",
+      "peer": "127.0.0.1"
+    },
+    "asn": {
+      "local": 65001,
+      "peer": 65000
+    },
+    "direction": "receive",
+    "message": {
+      "update": {
+        "attribute": {
+          "origin": "incomplete",
+          "as-path": {
+            "0": {
+              "element": "as-sequence",
+              "value": [
+                65000
+              ]
+            }
+          }
+        },
+        "announce": {
+          "bgp-ls bgp-ls": {
+            "127.0.0.1": [
+              {
+                "protocol-id": 7,
+                "identifier": 0,
+                "local-node-descriptor": [
+                  {
+                    "autonomous-system": 65000
+                  },
+                  {
+                    "bgp-ls-identifier": "0"
+                  },
+                  {
+                    "bgp-router-id": "192.168.255.1"
+                  },
+                  {
+                    "bgp-confederation-member": "1"
+                  }
+                ],
+                "multi-topology-ids": [
+                  1
+                ],
+                "srv6-sid-information": [
+                  "fd00::1"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}
+00:20:49 {
+  "exabgp": "5.0.0",
+  "time": 1742743249.467191,
+  "host": "CA-20024907",
+  "pid": 29333,
+  "ppid": 71391,
+  "counter": 2,
+  "type": "update",
+  "neighbor": {
+    "address": {
+      "local": "127.0.0.1",
+      "peer": "127.0.0.1"
+    },
+    "asn": {
+      "local": 65001,
+      "peer": 65000
+    },
+    "direction": "receive",
+    "message": {
+      "eor": {
+        "afi": "bgp-ls",
+        "safi": "bgp-ls"
+      }
+    }
+  }
+}
+00:20:55 {
+  "exabgp": "5.0.0",
+  "time": 1742743255.008179,
+  "host": "CA-20024907",
+  "pid": 29333,
+  "ppid": 71391,
+  "counter": 3,
+  "type": "update",
+  "neighbor": {
+    "address": {
+      "local": "127.0.0.1",
+      "peer": "127.0.0.1"
+    },
+    "asn": {
+      "local": 65001,
+      "peer": 65000
+    },
+    "direction": "receive",
+    "message": {
+      "update": {
+        "attribute": {
+          "origin": "incomplete",
+          "as-path": {
+            "0": {
+              "element": "as-sequence",
+              "value": [
+                65000
+              ]
+            }
+          }
+        },
+        "announce": {
+          "bgp-ls bgp-ls": {
+            "127.0.0.1": [
+              {
+                "protocol-id": 7,
+                "identifier": 0,
+                "local-node-descriptor": [
+                  {
+                    "autonomous-system": 65000
+                  },
+                  {
+                    "bgp-ls-identifier": "0"
+                  },
+                  {
+                    "bgp-router-id": "192.168.255.1"
+                  },
+                  {
+                    "bgp-confederation-member": "1"
+                  }
+                ],
+                "multi-topology-ids": [
+                  1
+                ],
+                "srv6-sid-information": [
+                  "fd00::1"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}
+00:20:55 {
+  "exabgp": "5.0.0",
+  "time": 1742743255.008372,
+  "host": "CA-20024907",
+  "pid": 29333,
+  "ppid": 71391,
+  "counter": 4,
+  "type": "update",
+  "neighbor": {
+    "address": {
+      "local": "127.0.0.1",
+      "peer": "127.0.0.1"
+    },
+    "asn": {
+      "local": 65001,
+      "peer": 65000
+    },
+    "direction": "receive",
+    "message": {
+      "eor": {
+        "afi": "bgp-ls",
+        "safi": "bgp-ls"
+      }
+    }
+  }
+}
+00:21:02 {
+  "exabgp": "5.0.0",
+  "time": 1742743262.4684758,
+  "host": "CA-20024907",
+  "pid": 29333,
+  "ppid": 71391,
+  "type": "notification",
+  "notification": "shutdown"
+}
+00:21:29 {
+  "exabgp": "5.0.0",
+  "time": 1742743289.9862201,
+  "host": "CA-20024907",
+  "pid": 29562,
+  "ppid": 71391,
+  "type": "notification",
+  "notification": "shutdown"
+}
+00:22:29 {
+  "exabgp": "5.0.0",
+  "time": 1742743349.687696,
+  "host": "CA-20024907",
+  "pid": 29831,
+  "ppid": 71391,
+  "counter": 1,
+  "type": "update",
+  "neighbor": {
+    "address": {
+      "local": "127.0.0.1",
+      "peer": "127.0.0.1"
+    },
+    "asn": {
+      "local": 65001,
+      "peer": 65000
+    },
+    "direction": "receive",
+    "message": {
+      "update": {
+        "attribute": {
+          "origin": "incomplete",
+          "as-path": {
+            "0": {
+              "element": "as-sequence",
+              "value": [
+                65000
+              ]
+            }
+          }
+        },
+        "announce": {
+          "bgp-ls bgp-ls": {
+            "127.0.0.1": [
+              {
+                "protocol-id": 7,
+                "identifier": 0,
+                "local-node-descriptor": [
+                  {
+                    "autonomous-system": 65000
+                  },
+                  {
+                    "bgp-ls-identifier": "0"
+                  },
+                  {
+                    "bgp-router-id": "192.168.255.1"
+                  },
+                  {
+                    "bgp-confederation-member": "1"
+                  }
+                ],
+                "multi-topology-ids": [
+                  1
+                ],
+                "srv6-sid-information": [
+                  "fd00::1"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}
+00:22:29 {
+  "exabgp": "5.0.0",
+  "time": 1742743349.7243478,
+  "host": "CA-20024907",
+  "pid": 29831,
+  "ppid": 71391,
+  "counter": 2,
+  "type": "update",
+  "neighbor": {
+    "address": {
+      "local": "127.0.0.1",
+      "peer": "127.0.0.1"
+    },
+    "asn": {
+      "local": 65001,
+      "peer": 65000
+    },
+    "direction": "receive",
+    "message": {
+      "eor": {
+        "afi": "bgp-ls",
+        "safi": "bgp-ls"
+      }
+    }
+  }
+}
+00:22:32 {
+  "exabgp": "5.0.0",
+  "time": 1742743352.923795,
+  "host": "CA-20024907",
+  "pid": 29831,
+  "ppid": 71391,
+  "type": "notification",
+  "notification": "shutdown"
+}
+00:23:58 {
+  "exabgp": "5.0.0",
+  "time": 1742743438.164622,
+  "host": "CA-20024907",
+  "pid": 31150,
+  "ppid": 71391,
+  "counter": 1,
+  "type": "update",
+  "neighbor": {
+    "address": {
+      "local": "127.0.0.1",
+      "peer": "127.0.0.1"
+    },
+    "asn": {
+      "local": 65001,
+      "peer": 65000
+    },
+    "direction": "receive",
+    "message": {
+      "update": {
+        "attribute": {
+          "origin": "incomplete",
+          "as-path": {
+            "0": {
+              "element": "as-sequence",
+              "value": [
+                65000
+              ]
+            }
+          }
+        },
+        "announce": {
+          "bgp-ls bgp-ls": {
+            "127.0.0.1": [
+              {
+                "protocol-id": 7,
+                "identifier": 0,
+                "local-node-descriptor": [
+                  {
+                    "autonomous-system": 65000
+                  },
+                  {
+                    "bgp-ls-identifier": "0"
+                  },
+                  {
+                    "bgp-router-id": "192.168.255.1"
+                  },
+                  {
+                    "bgp-confederation-member": "1"
+                  }
+                ],
+                "multi-topology-ids": [
+                  1
+                ],
+                "srv6-sid-information": [
+                  "fd00::1"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}
+00:23:58 {
+  "exabgp": "5.0.0",
+  "time": 1742743438.1648939,
+  "host": "CA-20024907",
+  "pid": 31150,
+  "ppid": 71391,
+  "counter": 2,
+  "type": "update",
+  "neighbor": {
+    "address": {
+      "local": "127.0.0.1",
+      "peer": "127.0.0.1"
+    },
+    "asn": {
+      "local": 65001,
+      "peer": 65000
+    },
+    "direction": "receive",
+    "message": {
+      "eor": {
+        "afi": "bgp-ls",
+        "safi": "bgp-ls"
+      }
+    }
+  }
+}
+00:24:02 {
+  "exabgp": "5.0.0",
+  "time": 1742743442.206516,
+  "host": "CA-20024907",
+  "pid": 31150,
+  "ppid": 71391,
+  "type": "notification",
+  "notification": "shutdown"
+}
+01:25:00 {
+  "exabgp": "5.0.0",
+  "time": 1742747100.78497,
+  "host": "CA-20024907",
+  "pid": 34641,
+  "ppid": 71391,
+  "counter": 1,
+  "type": "update",
+  "neighbor": {
+    "address": {
+      "local": "127.0.0.1",
+      "peer": "127.0.0.1"
+    },
+    "asn": {
+      "local": 65001,
+      "peer": 65000
+    },
+    "direction": "receive",
+    "message": {
+      "update": {
+        "attribute": {
+          "origin": "incomplete",
+          "as-path": {
+            "0": {
+              "element": "as-sequence",
+              "value": [
+                65000
+              ]
+            }
+          }
+        },
+        "announce": {
+          "bgp-ls bgp-ls": {
+            "127.0.0.1": [
+              {
+                "protocol-id": 7,
+                "identifier": 0,
+                "local-node-descriptor": [
+                  {
+                    "autonomous-system": 65000
+                  },
+                  {
+                    "bgp-ls-identifier": "0"
+                  },
+                  {
+                    "bgp-router-id": "192.168.255.1"
+                  },
+                  {
+                    "bgp-confederation-member": "1"
+                  }
+                ],
+                "multi-topology-ids": [
+                  1
+                ],
+                "srv6-sid-information": [
+                  "fd00::1"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}
+01:25:00 {
+  "exabgp": "5.0.0",
+  "time": 1742747100.7852669,
+  "host": "CA-20024907",
+  "pid": 34641,
+  "ppid": 71391,
+  "counter": 2,
+  "type": "update",
+  "neighbor": {
+    "address": {
+      "local": "127.0.0.1",
+      "peer": "127.0.0.1"
+    },
+    "asn": {
+      "local": 65001,
+      "peer": 65000
+    },
+    "direction": "receive",
+    "message": {
+      "eor": {
+        "afi": "bgp-ls",
+        "safi": "bgp-ls"
+      }
+    }
+  }
+}
+01:25:03 {
+  "exabgp": "5.0.0",
+  "time": 1742747103.705975,
+  "host": "CA-20024907",
+  "pid": 34641,
+  "ppid": 71391,
+  "type": "notification",
+  "notification": "shutdown"
+}
+01:27:29 {
+  "exabgp": "5.0.0",
+  "time": 1742747249.436828,
+  "host": "CA-20024907",
+  "pid": 35036,
+  "ppid": 71391,
+  "counter": 1,
+  "type": "update",
+  "neighbor": {
+    "address": {
+      "local": "127.0.0.1",
+      "peer": "127.0.0.1"
+    },
+    "asn": {
+      "local": 65001,
+      "peer": 65000
+    },
+    "direction": "receive",
+    "message": {
+      "update": {
+        "attribute": {
+          "origin": "incomplete",
+          "as-path": {
+            "0": {
+              "element": "as-sequence",
+              "value": [
+                65000
+              ]
+            }
+          }
+        },
+        "announce": {
+          "bgp-ls bgp-ls": {
+            "127.0.0.1": [
+              {
+                "protocol-id": 7,
+                "identifier": 0,
+                "local-node-descriptor": [
+                  {
+                    "autonomous-system": 65000
+                  },
+                  {
+                    "bgp-ls-identifier": "0"
+                  },
+                  {
+                    "bgp-router-id": "192.168.255.1"
+                  },
+                  {
+                    "bgp-confederation-member": "1"
+                  }
+                ],
+                "multi-topology-ids": [
+                  1
+                ],
+                "srv6-sid-information": [
+                  "fd00::1"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}
+01:27:29 {
+  "exabgp": "5.0.0",
+  "time": 1742747249.4371169,
+  "host": "CA-20024907",
+  "pid": 35036,
+  "ppid": 71391,
+  "counter": 2,
+  "type": "update",
+  "neighbor": {
+    "address": {
+      "local": "127.0.0.1",
+      "peer": "127.0.0.1"
+    },
+    "asn": {
+      "local": 65001,
+      "peer": 65000
+    },
+    "direction": "receive",
+    "message": {
+      "eor": {
+        "afi": "bgp-ls",
+        "safi": "bgp-ls"
+      }
+    }
+  }
+}
+01:27:32 {
+  "exabgp": "5.0.0",
+  "time": 1742747252.327252,
+  "host": "CA-20024907",
+  "pid": 35036,
+  "ppid": 71391,
+  "type": "notification",
+  "notification": "shutdown"
+}
