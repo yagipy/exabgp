@@ -302,6 +302,9 @@ class Neighbor(dict):
         if afi == AFI.ipv4:
             return self['router-id']
 
+        if afi == AFI.bgpls:
+            return self['local-address']
+
         raise TypeError(
             'use of "next-hop self": the route (%s) does not have the same family as the BGP tcp session (%s)'
             % (afi, self['local-address'].afi)
