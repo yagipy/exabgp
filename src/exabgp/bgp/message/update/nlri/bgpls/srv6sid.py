@@ -161,7 +161,7 @@ class LocalNodeDescriptorSub:
     def unpack(data):
         tlv_type, length = unpack('!HH', data[:4])
         packed_value = data[4:4+length]
-        if tlv_type in (512, 513, 514):
+        if tlv_type in (512, 513, 514, 517):
             unpacked_value = unpack('!I', packed_value)[0]
         elif tlv_type in (515, 516):
             unpacked_value = IP.ntop(packed_value)
