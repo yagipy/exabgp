@@ -5,6 +5,7 @@ Created by Hiroyuki Yagihashi on 2025-03-15.
 Copyright (c) 2025 Hiroyuki Yagihashi. All rights reserved.
 License: 3-clause BSD. (See the COPYRIGHT file)
 """
+from exabgp.bgp.message.update.nlri.bgpls.srv6sid import SRv6SID
 from exabgp.bgp.message.update.nlri.bgpls.tlvs.multitopology import MTID
 from exabgp.bgp.message.update.nlri.bgpls.tlvs.node import NodeDescriptorSub, NodeDescriptor
 from exabgp.bgp.message.update.nlri.bgpls.tlvs.srv6sidinformation import SRv6SIDInformation
@@ -14,13 +15,9 @@ from exabgp.protocol.ip import IP, IPSelf
 from exabgp.bgp.message.update.attribute import NextHopSelf, NextHop
 
 
-def protocol_id(tokeniser):
-    return int(tokeniser())
-
-def identifier(tokeniser):
-    return int(tokeniser())
-
-def local_node_descriptor(tokeniser):
+def srv6_sid(tokeniser, action):
+    proto_id = int(tokeniser())
+    identifier = int(tokeniser())
     value = tokeniser()
     if value == '(':
         as_number = int(tokeniser())
@@ -28,7 +25,7 @@ def local_node_descriptor(tokeniser):
         router_id = IP.create(tokeniser())
         confederation_member = int(tokeniser())
         tokeniser()
-        return NodeDescriptor([
+        node_descriptor = NodeDescriptor([
             NodeDescriptorSub(as_number, 512),
             NodeDescriptorSub(bgp_ls_identifier, 513),
             NodeDescriptorSub(router_id, 516),
@@ -36,6 +33,13 @@ def local_node_descriptor(tokeniser):
         ])
     else:
         raise ValueError('invalid local node descriptor')
+
+    return SRv6SID(
+        proto_id,
+        identifier,
+        node_descriptor,
+        action=action,
+    )
 
 def srv6_sid_information(tokeniser):
     sids = []

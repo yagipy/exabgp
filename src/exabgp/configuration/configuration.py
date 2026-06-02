@@ -281,7 +281,7 @@ class Configuration(_Configuration):
                 'commands': [
                     'bgp-ls',
                 ],
-                'sections': {}, # TODO
+                'sections': {},
             },
             self.static.name: {
                 'class': self.static,

@@ -53,22 +53,40 @@ class SRv6SID(BGPLS):
         self.multi_topology_id = multi_topology_id
         self.nexthop = nexthop
         self._packed = packed
-        # self._pack(packed) # TODO: init時にpackしたいが、Noneが入ってくる
+        # TODO: 削除
+        self.pack_srv6_sid(packed)
 
-    def _pack(self, packed=None):
-        if self._packed:
-            return self._packed
+    # TODO: pack_nlriを実装
+    # def pack_nlri(self, negotiated=None):
+    #     return pack('!HH', self.CODE, len(self._packed)) + self._packed
+    def pack_srv6_sid(self, packed=None):
+        # if self._packed: # TODO: パース後にchange.nlri.pack_srv6_sid()してもこの実装があると更新されない
+        #     return self._packed
 
         if packed:
             self._packed = packed
             return packed
 
+        packed_srv6_sid_information = b''
+        packed_multi_topology_id = b''
+
+        if self.srv6_sid_information:
+            packed_srv6_sid_information = self.srv6_sid_information.pack()
+
+        if self.multi_topology_id:
+            packed_multi_topology_id = self.multi_topology_id.pack()
+
+        print("✅ SRv6SID pack_srv6_sid srv6_sid_information: ", self.srv6_sid_information)
+        print("✅ SRv6SID pack_srv6_sid multi_topology_id: ", self.multi_topology_id)
+        print("✅ SRv6SID pack_srv6_sid packed_srv6_sid_information: ", packed_srv6_sid_information.hex())
+        print("✅ SRv6SID pack_srv6_sid packed_multi_topology_id: ", packed_multi_topology_id.hex())
+
         self._packed = (
             pack('!B', self.proto_id) +
             pack('!Q', self.identifier) +
             self.local_node_descriptor.pack() +
-            self.srv6_sid_information.pack() +
-            self.multi_topology_id.pack()
+            packed_srv6_sid_information +
+            packed_multi_topology_id
         )
         return self._packed
 
@@ -125,10 +143,9 @@ class SRv6SID(BGPLS):
             [
                 '"protocol-id": %d' % int(self.proto_id),
                 '"identifier": %d' % int(self.identifier),
+                '"local-node-descriptor": [ %s ]' % self.local_node_descriptor.json()
             ]
         )
-        if self.local_node_descriptor:
-            content += ', "local-node-descriptor": [ %s ]' % self.local_node_descriptor.json()
         if self.multi_topology_id:
             content += ', "multi-topology-ids": [ %s ]' % self.multi_topology_id.json()
         if self.srv6_sid_information:

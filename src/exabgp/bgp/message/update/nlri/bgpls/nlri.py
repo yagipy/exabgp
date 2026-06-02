@@ -92,11 +92,11 @@ class BGPLS(NLRI):
         NLRI.__init__(self, AFI.bgpls, SAFI.bgp_ls, action)
         self._packed = b''
 
+    # TODO: pack_nlriに対応
     def pack_nlri(self, negotiated=None):
         return pack('!HH', self.CODE, len(self._packed)) + self._packed
 
     def __len__(self):
-        self._pack() # TODO: 修正
         return len(self._packed) + 2
 
     def __hash__(self):
