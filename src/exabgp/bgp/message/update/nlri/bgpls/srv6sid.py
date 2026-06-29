@@ -109,6 +109,7 @@ class SRv6SID(BGPLS):
         tlvs = tlvs[node_length:]
         srv6_sid_descriptors: dict[str, Any] = {}
         srv6_sid_descriptors['multi-topology-ids'] = []
+        srv6_sid_descriptors['srv6-sids'] = []
 
         while tlvs:
             if len(tlvs) < MIN_TLV_HEADER_SIZE:
@@ -117,7 +118,9 @@ class SRv6SID(BGPLS):
             if sid_type == TLV_MULTI_TOPO_ID:
                 srv6_sid_descriptors['multi-topology-ids'].append(MTID.unpack_mtid(tlvs[4 : sid_length + 4]).json())
             elif sid_type == TLV_SRV6_SID_INFO:
-                srv6_sid_descriptors['srv6-sid'] = str(Srv6SIDInformation.unpack_srv6sid(tlvs[4 : sid_length + 4]))
+                srv6_sid_descriptors['srv6-sids'].append(
+                    str(Srv6SIDInformation.unpack_srv6sid(tlvs[4 : sid_length + 4]))
+                )
             else:
                 if f'generic-tlv-{sid_type}' not in srv6_sid_descriptors:
                     srv6_sid_descriptors[f'generic-tlv-{sid_type}'] = []
@@ -195,6 +198,75 @@ class SRv6SID(BGPLS):
     def __hash__(self) -> int:
         # Direct _packed hash - all wire fields encoded in bytes
         return hash(self._packed)
+
+    @classmethod
+    def from_settings(cls, settings: 'SRv6SIDSettings') -> 'SRv6SID':
+        from struct import pack as struct_pack
+
+        from exabgp.bgp.message.update.nlri.bgpls.tlvs.node import (
+            IGP_ISIS_L1,
+            IGP_ISIS_L2,
+            IGP_OSPFV2,
+            IGP_DIRECT,
+            IGP_OSPFV3,
+            IGP_STATIC,
+            NODE_DESC_TLV_AS,
+            NODE_DESC_TLV_BGPLS_ID,
+            NODE_DESC_TLV_IGP_ROUTER,
+        )
+        from exabgp.protocol.ip import IPv6
+
+        error = settings.validate()
+        if error:
+            raise ValueError(error)
+
+        assert settings.protocol_id is not None
+        assert settings.identifier is not None
+        assert settings.local_node_descriptor is not None
+
+        proto_id = settings.protocol_id
+        ident = settings.identifier
+        asn, bgpls_id, router_id = settings.local_node_descriptor
+
+        _NON_ISIS_PROTO_IDS = (IGP_OSPFV2, IGP_DIRECT, IGP_OSPFV3, IGP_STATIC)
+        if proto_id in (IGP_ISIS_L1, IGP_ISIS_L2):
+            raise ValueError(
+                'local-node-descriptor: IS-IS (protocol-id %d) requires a 6- or 7-byte '
+                'ISO system-id which cannot be expressed as an IP address; '
+                'IS-IS SRv6 SID announcement is not currently supported' % proto_id
+            )
+        if proto_id == 4:
+            raise ValueError(
+                'protocol-id 4 (direct) is not supported for SRv6 SID announcement: '
+                'the NodeDescriptor decoder has no router-id handler for this protocol'
+            )
+        if proto_id in _NON_ISIS_PROTO_IDS and isinstance(router_id, IPv6):
+            raise ValueError(
+                'local-node-descriptor: protocol-id %d requires an IPv4 router-id '
+                '(NodeDescriptor.unpack_node accepts only 4/8-byte Router-IDs for this protocol); '
+                'got IPv6 address %s' % (proto_id, router_id)
+            )
+
+        sub = struct_pack('!HHL', NODE_DESC_TLV_AS, 4, asn) + struct_pack('!HHL', NODE_DESC_TLV_BGPLS_ID, 4, bgpls_id)
+        rid_bytes = router_id.pack_ip()
+        sub += struct_pack('!HH', NODE_DESC_TLV_IGP_ROUTER, len(rid_bytes)) + rid_bytes
+        local_node_tlv = struct_pack('!HH', TLV_LOCAL_NODE_DESC, len(sub)) + sub
+
+        mt_ids = settings.multi_topology_id
+        if mt_ids:
+            body = b''.join(struct_pack('!H', mt_id) for mt_id in mt_ids)
+            mtid_tlv = struct_pack('!HH', TLV_MULTI_TOPO_ID, len(body)) + body
+        else:
+            mtid_tlv = b''
+
+        sid_tlvs = b''.join(
+            struct_pack('!HH', TLV_SRV6_SID_INFO, len(sid.pack_ip())) + sid.pack_ip()
+            for sid in settings.srv6_sid_information
+        )
+
+        payload = struct_pack('!BQ', proto_id, ident) + local_node_tlv + mtid_tlv + sid_tlvs
+        packed = struct_pack('!HH', cls.CODE, len(payload)) + payload
+        return cls(packed)
 
     def json(self, announced: bool = True, compact: bool = False) -> str:
         nodes = ', '.join(d.json() for d in self.local_node_descriptors)

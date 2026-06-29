@@ -20,6 +20,7 @@ if TYPE_CHECKING:
     from exabgp.rib.route import Route
 
 from exabgp.configuration.announce import AnnounceIPv4, AnnounceIPv6, AnnounceL2VPN, SectionAnnounce
+from exabgp.configuration.announce.bgpls import AnnounceBGPLS  # noqa: F401,E261,E501
 from exabgp.configuration.announce.flow import AnnounceFlow  # noqa: F401,E261,E501
 
 # for registration
@@ -306,6 +307,7 @@ class Configuration(_Configuration):
         self.announce_ipv4 = AnnounceIPv4(*params)
         self.announce_ipv6 = AnnounceIPv6(*params)
         self.announce_l2vpn = AnnounceL2VPN(*params)
+        self.announce_bgpls = AnnounceBGPLS(*params)
         self.flow = ParseFlow(*params)
         self.flow_route = ParseFlowRoute(*params)
         self.flow_match = ParseFlowMatch(*params)
@@ -337,6 +339,7 @@ class Configuration(_Configuration):
                 self.announce_ipv4,
                 self.announce_ipv6,
                 self.announce_l2vpn,
+                self.announce_bgpls,
                 self.flow,
                 self.flow_route,
                 self.flow_match,
@@ -424,6 +427,7 @@ class Configuration(_Configuration):
                 'sr-policy',
             ],
             'l2vpn': ['vpls'],
+            'bgp-ls': ['bgp-ls'],
             'static': ['route', 'attributes', 'sr-policy'],
         }
 
@@ -509,6 +513,7 @@ class Configuration(_Configuration):
         self.announce_ipv6.clear()
         self.announce_ipv4.clear()
         self.announce_l2vpn.clear()
+        self.announce_bgpls.clear()
         self.announce.clear()
         self.static.clear()
         self.static_route.clear()

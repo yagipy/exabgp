@@ -117,6 +117,7 @@ class SectionAnnounce(ParseAnnounce):
             'ipv4': Container(description='IPv4 route announcements'),
             'ipv6': Container(description='IPv6 route announcements'),
             'l2vpn': Container(description='L2VPN route announcements'),
+            'bgp-ls': Container(description='BGP-LS announcements'),
         },
     )
 

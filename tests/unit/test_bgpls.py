@@ -746,7 +746,7 @@ class TestSRv6SIDNLRI:
         assert srv6sid.proto_id == 3
         assert srv6sid.domain == 1
         assert len(srv6sid.local_node_descriptors) == 1
-        assert 'srv6-sid' in srv6sid.srv6_sid_descriptors
+        assert 'srv6-sids' in srv6sid.srv6_sid_descriptors
         assert srv6sid.CODE == 6
         assert srv6sid.NAME == 'bgpls-srv6sid'
         assert srv6sid.SHORT_NAME == 'SRv6_SID'
